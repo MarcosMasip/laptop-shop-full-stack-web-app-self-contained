@@ -28,7 +28,7 @@ public class UserService {
     private JWTService jwtService;
 
     public UserDto getUserByUsername(String username) {
-        User user = userRepo.findByUsername(username);
+    User user = userRepo.findTopByUsernameOrderByIdAsc(username);
         if (user != null) {
             return userMapper.toDto(user);
         }else{

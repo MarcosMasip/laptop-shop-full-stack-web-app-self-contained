@@ -13,7 +13,7 @@ public class DataSeeder {
     @Bean
     public CommandLineRunner seedDefaultUser(UserRepo userRepo) {
         return args -> {
-            if (userRepo.findByUsername("admin") == null) {
+            if (!userRepo.existsByUsername("admin")) {
                 var encoder = new BCryptPasswordEncoder(12);
                 var user = new User();
                 user.setUsername("admin");
