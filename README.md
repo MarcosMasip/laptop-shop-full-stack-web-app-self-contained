@@ -1,136 +1,265 @@
-# HK-Lapstore - Full Stack Web Application
+# Laptop Shop – Full‑Stack Web App (Spring Boot + Angular)
 
-This is a **Full Stack Web Application** for **HK-Lapstore**, an online store for managing and purchasing laptops . The project utilizes **Spring Boot** for the backend, **Angular** for the frontend, and **Spring Security with JWT Authentication** for secure user authentication and authorization.
+This repository is a self‑contained full‑stack web application for a laptop store. It includes:
 
-## Technologies Used
-- **Frontend**: Angular with Bootstrap 
-- **Backend**: Spring Boot (Java)
-- **Authentication**: Spring Security with JWT (JSON Web Token)
-- **Database**: MySQL 
-- **Build Tools**: Maven (for Spring Boot) and npm (for Angular)
-- **Version Control**: Git
+- Backend: Spring Boot (Java) with Spring Security + JWT, MySQL (JPA/Hibernate)
+- Frontend: Angular 18 with Bootstrap
 
-## Sample View of App
-![dashboard](https://github.com/user-attachments/assets/d4020313-59d9-4eab-92d1-5b5e814b8d60)
+You can run it with Docker (recommended for a quick start) or without Docker using a local MySQL installation. This README gives copy‑paste commands for macOS, Windows, and Linux, plus expected outcomes and cleanup instructions.
 
-![products](https://github.com/user-attachments/assets/73d43356-9f6b-4d2c-9a52-eb2542fc6b4a)
-
-![cart](https://github.com/user-attachments/assets/c637c575-2722-488a-ac10-efd95367fdb0)
-
-![product-update](https://github.com/user-attachments/assets/d75fe228-bbce-4c54-9fce-173ffabf5f8d)
+Key ports and endpoints:
+- Backend: http://localhost:8080
+- Frontend: http://localhost:4200
+- API base URL: http://localhost:8080/api/v1 (see `frontend/src/app/util/constants.ts`)
 
 
-## Features
-- User registration and login with JWT authentication
-- Admin panel for managing products, clients,cart and orders
-- Secure authentication with JWT tokens
-- CRUD operations for managing products
-- Data stored in MySQL 
-- Secure password storage with bcrypt hashing
-
-## Project Structure
-
-### Backend - Spring Boot
-1. **Controllers**: RESTful APIs for managing users, products,clients and orders.
-2. **Services**: Business logic for handling operations.
-3. **Repositories**: Interacts with the database.
-4. **Entities**: Database models (e.g., Product, User, Order).
-5. **Security**: Spring Security configuration, JWT token generation, and user authentication.
-6. **DTOs**: Data Transfer Objects for exchanging data between the frontend and backend.
-
-### Frontend - Angular
-1. **Components**: UI components for displaying products, managing orders, etc.
-2. **Services**: HTTP services for API calls and authentication management.
-3. **Routing**: Handles navigation and route protection.
-4. **Forms**: Handles user inputs, validation, and form submission (e.g., Registration, Login, Product Edit).
-5. **JWT Authentication**: Manages JWT tokens for secure user authentication and authorization.
+## Tech Stack
+- Spring Boot 3 (Java 17+), Spring Security, JWT (jjwt)
+- MySQL 8, JPA/Hibernate, HikariCP
+- Angular 18, Bootstrap 5, RxJS
+- Maven (Wrapper included), npm/Angular CLI
 
 
-### Installation Guide
-### 1\. **Clone the Repositories**
+## Prerequisites by OS
 
-Start by cloning both the backend and frontend repositories to your local machine.
+All platforms
+- Git
+- Node.js 18.19+ or 20+ (Angular 18 requirement)
+- Java 17+ (JDK 17 or newer; 17/21 LTS recommended)
 
-*    clone https://github.com/yourusername/hk-lapstore-backend.git
-    
+macOS
+- Option A (Dockerized DB): Docker Desktop
+- Option B (Local DB): Homebrew MySQL
 
-### 2\. **Set Up Backend (Spring Boot)**
+Windows
+- Option A (Dockerized DB): Docker Desktop (Windows)
+- Option B (Local DB): MySQL installer
+- Use PowerShell for the Windows command examples
 
-1.  **Install Java **:Ensure that **Java ** is installed on your system. You can download it from [OpenJDK](https://adoptopenjdk.net/).
-    
-2.  **Configure Database (MySQL)**:
-    
-    *   propertiesCopy codespring.datasource.url=jdbc:mysql://localhost:3306/your_db_name
-    *   spring.datasource.username=root
-    *   spring.datasource.password=yourpassword
-    *   spring.jpa.hibernate.ddl-auto=update
-    *   spring.jpa.show-sql=true
-        
-3.   mvn clean install
-    
-4.   mvn spring-boot:runYour backend should now be running at http://localhost:8080.
-    
+Linux
+- Option A (Dockerized DB): Docker Engine
+- Option B (Local DB): MySQL server via your package manager
 
-### 3\. **Set Up Frontend (Angular)**
 
-1.  **Install Node.js and npm**:Ensure that **Node.js** and **npm** are installed on your machine. You can download and install Node.js from [nodejs.org](https://nodejs.org/).
-    
-2.  npm install -g @angular/cli
-    
-3.  cd hk-lapstore-frontendnpm install
-    
-4.  ng serve Your frontend should now be running at http://localhost:4200.
-    
+## Quick Start (Docker – fastest path)
 
-### 4\. **JWT Authentication Setup**
+These steps start MySQL in Docker, boot the backend, seed a user, and run the Angular frontend.
 
-1.  **Backend - Spring Security Configuration**:
-    
-    *   The backend is configured with **Spring Security** and **JWT** for user authentication and authorization. The /login endpoint is used to authenticate users and receive a JWT token.
-        
-    *   The backend includes a filter (JwtAuthenticationFilter) that intercepts requests and verifies the JWT token for protected routes.
-        
-2.  **Frontend - Angular Authentication**:
-    
-    *   In the frontend, the login form allows users to authenticate and receive a JWT token. The token is stored in **local storage** and sent with every request that requires authentication.
-        
-    *   The frontend includes an **HTTP interceptor** to add the JWT token to the headers of the API requests.
-        
-    
-### 5\. **Contributing**
+1) Start MySQL 8 in Docker
 
-If you'd like to contribute to this project, please follow these steps:
+macOS/Linux (bash/zsh):
+```bash
+docker run -d --name mysql-hklapstore -p 3306:3306 \
+    -e MYSQL_DATABASE=hklapstore \
+    -e MYSQL_USER=hkl \
+    -e MYSQL_PASSWORD=hkl \
+    -e MYSQL_ROOT_PASSWORD=root \
+    mysql:8
+```
 
-1.  **Fork** the repository on GitHub.
-    
-2.  **Create a new branch** (git checkout -b feature-branch).
-    
-3.  **Make your changes** to the code.
-    
-4.  **Commit your changes** (git commit -am 'Add new feature').
-    
-5.  **Push to the branch** (git push origin feature-branch).
-    
-6.  **Open a Pull Request** with a detailed description of your changes.
-    
+Windows (PowerShell):
+```powershell
+docker run -d --name mysql-hklapstore -p 3306:3306 `
+    -e MYSQL_DATABASE=hklapstore `
+    -e MYSQL_USER=hkl `
+    -e MYSQL_PASSWORD=hkl `
+    -e MYSQL_ROOT_PASSWORD=root `
+    mysql:8
+```
 
-### 6\. **License**
+Expected outcome: A container ID is printed. `docker ps` shows a running container exposing 3306.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Authors
+2) Run the backend (Spring Boot on 8080)
 
-👤 **Hiron Kanishka**
+macOS/Linux (bash/zsh):
+```bash
+cd backend
+chmod +x mvnw
+SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/hklapstore?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false" \
+SPRING_DATASOURCE_USERNAME=hkl \
+SPRING_DATASOURCE_PASSWORD=hkl \
+./mvnw spring-boot:run
+```
 
-- GitHub: [@hironkanishka](https://linkedin.com/in/hiron-kanishka)
-- LinkedIn: [Hiron Kanishka](https://www.linkedin.com/in/hiron-kanishka/)
+Windows (PowerShell):
+```powershell
+cd backend
+$env:SPRING_DATASOURCE_URL = "jdbc:mysql://localhost:3306/hklapstore?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
+$env:SPRING_DATASOURCE_USERNAME = "hkl"
+$env:SPRING_DATASOURCE_PASSWORD = "hkl"
+./mvnw.cmd spring-boot:run
+```
 
-## Feedback and Contributions
+Expected outcome: Maven downloads dependencies (first run) and logs include:
+- “Tomcat started on port 8080 (http)”
+- “Started BackendApplication …”
 
-If you have any feedback, suggestions, or would like to contribute to this project, your involvement is highly valued. Feel free to open an issue or submit a pull request with your ideas and enhancements. Remember, this template is a starting point, and the true magic lies in making it your own. Enjoy the journey of creating a stunning portfolio that represents your unique talents and accomplishments!
 
-Happy coding and showcasing!
+3) Seed a user and verify auth (new terminal)
 
-## Show your support
+Register a user (one‑time):
+```bash
+curl -X POST http://localhost:8080/api/v1/user/registerUser \
+    -H "Content-Type: application/json" \
+    -d '{"username":"admin","password":"admin123"}'
+```
 
-Give a ⭐️ if you like this project!
+Expected: 201 JSON with message “User Saved Successfully”. If the user already exists, you may see a 5xx; proceed to login.
+
+Login and copy the token:
+```bash
+curl -X POST http://localhost:8080/api/v1/user/login \
+    -H "Content-Type: application/json" \
+    -d '{"username":"admin","password":"admin123"}'
+```
+
+Expected: 200 JSON with `data.token` (a JWT). Keep it for testing protected endpoints.
+
+
+4) Run the frontend (Angular on 4200) – new terminal
+
+macOS/Linux:
+```bash
+cd frontend
+npm ci
+npm start
+```
+
+Windows (PowerShell):
+```powershell
+cd frontend
+npm ci
+npm start
+```
+
+Expected outcome:
+- “✔ Compiled successfully” and “Local: http://localhost:4200/”
+- Open http://localhost:4200 and log in with admin/admin123. You should be redirected to `/dashboard`.
+
+
+## Quick Start (Non‑Docker – local MySQL)
+
+Use this if you prefer installing MySQL directly on your machine.
+
+1) Install and start MySQL
+
+macOS (Homebrew):
+```bash
+brew install mysql
+brew services start mysql
+mysql -u root <<'SQL'
+CREATE DATABASE IF NOT EXISTS hklapstore;
+CREATE USER IF NOT EXISTS 'hkl'@'localhost' IDENTIFIED BY 'hkl';
+GRANT ALL PRIVILEGES ON hklapstore.* TO 'hkl'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+```
+
+Windows (MySQL Installer):
+- Install MySQL Server and MySQL Shell/Workbench.
+- Create database and user (Workbench or mysql.exe):
+```sql
+CREATE DATABASE IF NOT EXISTS hklapstore;
+CREATE USER IF NOT EXISTS 'hkl'@'localhost' IDENTIFIED BY 'hkl';
+GRANT ALL PRIVILEGES ON hklapstore.* TO 'hkl'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Linux (Debian/Ubuntu example):
+```bash
+sudo apt-get update
+sudo apt-get install -y mysql-server
+sudo service mysql start
+mysql -u root <<'SQL'
+CREATE DATABASE IF NOT EXISTS hklapstore;
+CREATE USER IF NOT EXISTS 'hkl'@'localhost' IDENTIFIED BY 'hkl';
+GRANT ALL PRIVILEGES ON hklapstore.* TO 'hkl'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+```
+
+Expected outcome: You can connect to `mysql://localhost:3306/hklapstore` with user `hkl`/`hkl`.
+
+
+2) Run the backend (same as Docker path, just different DB host if needed)
+
+macOS/Linux:
+```bash
+cd backend
+chmod +x mvnw
+SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/hklapstore?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false" \
+SPRING_DATASOURCE_USERNAME=hkl \
+SPRING_DATASOURCE_PASSWORD=hkl \
+./mvnw spring-boot:run
+```
+
+Windows (PowerShell):
+```powershell
+cd backend
+$env:SPRING_DATASOURCE_URL = "jdbc:mysql://localhost:3306/hklapstore?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
+$env:SPRING_DATASOURCE_USERNAME = "hkl"
+$env:SPRING_DATASOURCE_PASSWORD = "hkl"
+./mvnw.cmd spring-boot:run
+```
+
+Expected outcome: Backend starts on port 8080. Proceed to seed/login and run the frontend as in the Docker path.
+
+
+## Verify the app end‑to‑end
+
+1) Login at http://localhost:4200 with admin/admin123
+2) Browse dashboard, products, clients, orders, cart.
+3) API base consumed by the frontend is `http://localhost:8080/api/v1`. The Angular app automatically attaches the JWT via an HTTP interceptor.
+
+
+## Cleanup / Shutdown
+
+Backend (in the backend terminal):
+```bash
+Ctrl+C
+```
+Expected: Spring Boot logs graceful shutdown and returns to your shell.
+
+Frontend (in the frontend terminal):
+```bash
+Ctrl+C
+```
+Expected: Angular dev server stops.
+
+Dockerized MySQL:
+```bash
+docker stop mysql-hklapstore
+docker rm mysql-hklapstore
+```
+Expected: Container stops and is removed. Data is lost unless you mounted a volume.
+
+Local MySQL:
+- macOS (Homebrew): `brew services stop mysql`
+- Linux (Debian/Ubuntu): `sudo service mysql stop`
+- Windows: stop the MySQL service from Services or MySQL Notifier.
+
+
+## Troubleshooting
+
+- Port already in use (8080 or 4200):
+    - Backend: run with `SERVER_PORT=8081 ./mvnw spring-boot:run` (macOS/Linux) or `$env:SERVER_PORT=8081; ./mvnw.cmd spring-boot:run` (Windows).
+    - Frontend: `npm start -- --port 4300`.
+- CORS errors: CORS allows `http://localhost:4200` by default (see `backend/src/main/java/com/hklapstore/backend/config/CORSConfig.java`). If you change the frontend port, update that allowed origin.
+- Login 401/403: Ensure you registered the user and that the backend startup logs didn’t show DB connection errors. The login endpoint is `/api/v1/user/login`.
+- Database connection errors: Confirm MySQL is running and the `SPRING_DATASOURCE_*` values match your setup.
+
+
+## What this repo is for
+
+This repository demonstrates a complete JWT‑secured CRUD app for a laptop shop, suitable as a reference or starter for:
+- Admin dashboards managing products, clients, and orders
+- Token‑based authentication flows (Angular + Spring Security + JWT)
+- Typical Spring Boot + Angular monorepo layouts
+
+If you plan to deploy, add production‑grade configs (externalized DB credentials, stable JWT secret, HTTPS, etc.).
+
+
+## License
+
+MIT License – see `LICENSE`.

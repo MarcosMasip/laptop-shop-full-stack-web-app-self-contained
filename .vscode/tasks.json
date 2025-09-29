@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "git-add-commit-push-feat-new-main",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"git add -A && git status --porcelain && git commit -m \"docs: rewrite README with cross-platform run/cleanup; chore: make mvnw executable; chore: disable Angular CLI analytics in angular.json\" || true && git push -u origin feat/new-main"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		}
+	]
+}
