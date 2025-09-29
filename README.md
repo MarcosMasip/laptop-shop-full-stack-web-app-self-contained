@@ -248,6 +248,7 @@ Local MySQL:
 - CORS errors: CORS allows `http://localhost:4200` by default (see `backend/src/main/java/com/hklapstore/backend/config/CORSConfig.java`). If you change the frontend port, update that allowed origin.
 - Login 401/403: Ensure you registered the user and that the backend startup logs didn’t show DB connection errors. The login endpoint is `/api/v1/user/login`.
 - Database connection errors: Confirm MySQL is running and the `SPRING_DATASOURCE_*` values match your setup.
+ - After pulling code updates: Restart both backend and frontend to pick up changes. If the browser still fails to authenticate, clear `localStorage` to remove any stale JWT: open DevTools Console and run `localStorage.clear()`.
 
 
 ## What this repo is for
