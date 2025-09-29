@@ -13,6 +13,19 @@
 				"$gcc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "git-commit-login-401-fix",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"git add -A && git status --porcelain && git commit -m \"fix(security,cors): correct login matcher and allow OPTIONS; feat(frontend): skip Authorization header when no token\" || true && git push"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
 		}
 	]
 }

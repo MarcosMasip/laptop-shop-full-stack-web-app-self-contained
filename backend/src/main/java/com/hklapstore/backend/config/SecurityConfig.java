@@ -39,9 +39,9 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults()) //enabling cors bcz implemented my own
                 .csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(req -> req
-                        .requestMatchers("/api/v1/user/registerUser",
-                                "api/v1/user/login").permitAll()
+        .authorizeHttpRequests(req -> req
+            .requestMatchers("/api/v1/user/registerUser",
+                "/api/v1/user/login").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
