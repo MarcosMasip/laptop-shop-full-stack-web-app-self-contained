@@ -26,6 +26,19 @@
 				"$gcc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "git-commit-push-seeder",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"git add -A && git status --porcelain && git commit -m \"feat(backend): seed default admin user on startup; docs(README): note auto-seeded user and Docker data persistence\" || true && git push"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
 		}
 	]
 }

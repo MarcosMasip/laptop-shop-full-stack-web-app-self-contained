@@ -98,7 +98,9 @@ Expected outcome: Maven downloads dependencies (first run) and logs include:
 
 3) Seed a user and verify auth (new terminal)
 
-Register a user (one‑time):
+The backend auto‑seeds a default user on startup if missing: username `admin`, password `admin123`.
+
+Register a user manually (optional / one‑time):
 ```bash
 curl -X POST http://localhost:8080/api/v1/user/registerUser \
     -H "Content-Type: application/json" \
@@ -232,7 +234,7 @@ Dockerized MySQL:
 docker stop mysql-hklapstore
 docker rm mysql-hklapstore
 ```
-Expected: Container stops and is removed. Data is lost unless you mounted a volume.
+Expected: Container stops and is removed. Note: Data is lost unless you mounted a volume; recreating the container gives you a fresh DB. The backend will re‑seed the default admin if missing at next start.
 
 Local MySQL:
 - macOS (Homebrew): `brew services stop mysql`
